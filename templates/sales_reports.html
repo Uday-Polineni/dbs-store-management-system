@@ -1,0 +1,58 @@
+{% extends "layout.html" %} {% block content %}
+
+<h2 class="mb-4"><i class="bi bi-bar-chart"></i> Sales Reports</h2>
+
+<!-- SUMMARY CARDS -->
+<div class="row mb-4">
+  <div class="col-md-4">
+    <div class="card shadow-sm p-3">
+      <h6 class="text-secondary">Total Revenue</h6>
+      <h2 class="text-primary fw-bold">${{ summary.total_revenue or 0 }}</h2>
+      <p class="text-muted">{{ summary.total_items }} items sold</p>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card shadow-sm p-3">
+      <h6 class="text-secondary">Today's Sales</h6>
+      <h2 class="text-success fw-bold">${{ today.revenue_today or 0 }}</h2>
+      <p class="text-muted">{{ today.qty_today }} items today</p>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card shadow-sm p-3">
+      <h6 class="text-secondary">This Month</h6>
+      <h2 class="text-warning fw-bold">${{ month.revenue_month or 0 }}</h2>
+      <p class="text-muted">{{ month.qty_month }} items this month</p>
+    </div>
+  </div>
+</div>
+
+<hr />
+
+<!-- TOP SELLING PRODUCTS TABLE -->
+<h4 class="mt-4"><i class="bi bi-trophy"></i> Top Selling Products</h4>
+
+<table
+  class="table table-hover table-bordered bg-white shadow-sm rounded-3 mt-2"
+>
+  <thead class="table-dark">
+    <tr>
+      <th>Product</th>
+      <th>Total Sold</th>
+      <th>Revenue</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in top_products %}
+    <tr>
+      <td>{{ p.product_name }}</td>
+      <td>{{ p.total_qty }}</td>
+      <td>${{ p.total_amount }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

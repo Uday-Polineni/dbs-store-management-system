@@ -1,0 +1,82 @@
+{% extends "layout.html" %} {% block content %}
+
+<h2 class="mb-4"><i class="bi bi-speedometer2"></i> Dashboard</h2>
+
+<div class="row">
+  <!-- Today -->
+  <div class="col-md-4">
+    <div class="card shadow-sm p-3">
+      <h6 class="text-secondary">Today's Sales</h6>
+      <h2 class="text-primary fw-bold">${{ today_sales.total_amount or 0 }}</h2>
+      <p class="text-muted">{{ today_sales.total_sales }} sale(s)</p>
+    </div>
+  </div>
+
+  <!-- Monthly -->
+  <div class="col-md-4">
+    <div class="card shadow-sm p-3">
+      <h6 class="text-secondary">Monthly Sales</h6>
+      <h2 class="text-success fw-bold">
+        ${{ month_sales.monthly_amount or 0 }}
+      </h2>
+      <p class="text-muted">{{ month_sales.monthly_sales }} sale(s)</p>
+    </div>
+  </div>
+</div>
+
+{% if role == 'manager' %}
+<hr />
+
+<h4 class="mt-4"><i class="bi bi-exclamation-triangle"></i> Low Stock Items</h4>
+
+{% if low_stock %}
+<table
+  class="table table-hover table-striped bg-white shadow-sm rounded-3 mt-2"
+>
+  <thead class="table-dark">
+    <tr>
+      <th>Product</th>
+      <th>SKU</th>
+      <th>Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in low_stock %}
+    <tr class="table-danger">
+      <td>{{ p.product_name }}</td>
+      <td>{{ p.sku }}</td>
+      <td>{{ p.quantity }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<div class="alert alert-success mt-3">All products have sufficient stock!</div>
+{% endif %}
+
+<hr />
+
+<h4 class="mt-4"><i class="bi bi-bar-chart"></i> Top Selling Products</h4>
+
+{% if top_products %}
+<table
+  class="table table-hover table-bordered bg-white shadow-sm rounded-3 mt-2"
+>
+  <thead class="table-dark">
+    <tr>
+      <th>Product</th>
+      <th>Total Sold</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for t in top_products %}
+    <tr>
+      <td>{{ t.product_name }}</td>
+      <td>{{ t.total_sold }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>No sales data yet.</p>
+{% endif %} {% endif %} {% endblock %}

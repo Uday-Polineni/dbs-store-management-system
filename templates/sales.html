@@ -1,0 +1,39 @@
+{% extends "layout.html" %} {% block content %}
+<div class="container mt-4">
+  <h2 class="mb-3"><i class="bi bi-receipt"></i> Sales</h2>
+
+  <a href="/sales/reports" class="btn btn-info mb-3">
+    <i class="bi bi-bar-chart"></i> Reports
+  </a>
+
+  <a href="/sales/new" class="btn btn-success mb-2">New Sale</a>
+
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Sold By</th>
+        <th>Total Amount</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for s in sales %}
+      <tr>
+        <td>{{ s.sale_id }}</td>
+        <td>{{ s.sale_date }}</td>
+        <td>{{ s.username }}</td>
+        <td>${{ s.total_amount }}</td>
+        <td>
+          <a class="btn btn-info btn-sm" href="/sales/view/{{ s.sale_id }}"
+            >View</a
+          >
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

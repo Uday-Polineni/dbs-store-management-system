@@ -1,0 +1,37 @@
+{% extends "layout.html" %} {% block content %}
+<div class="container mt-4">
+  <h2>Sale #{{ sale.sale_id }}</h2>
+
+  <p><strong>Date:</strong> {{ sale.sale_date }}</p>
+  <p><strong>Sold By:</strong> {{ sale.username }}</p>
+  <p><strong>Total Amount:</strong> ${{ sale.total_amount }}</p>
+
+  <h4>Items</h4>
+
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>Product</th>
+        <th>SKU</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Line Total</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for i in items %}
+      <tr>
+        <td>{{ i.product_name }}</td>
+        <td>{{ i.sku }}</td>
+        <td>{{ i.quantity_sold }}</td>
+        <td>${{ i.item_price }}</td>
+        <td>${{ i.quantity_sold * i.item_price }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <a href="/sales" class="btn btn-secondary mt-2">Back to Sales</a>
+</div>
+{% endblock %}

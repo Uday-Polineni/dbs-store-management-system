@@ -1,0 +1,25 @@
+{% extends "layout.html" %} {% block content %}
+<div class="container mt-4">
+  <h2>Edit Supplier</h2>
+
+  {% if error %}
+  <div class="alert alert-danger">{{ error }}</div>
+  {% endif %}
+
+  <form method="POST" novalidate>
+    <input
+      type="text"
+      name="supplier_name"
+      value="{{ supplier.supplier_name }}"
+      required
+    />
+    <input
+      type="text"
+      name="contact_info"
+      value="{{ supplier.contact_info }}"
+      required
+    />
+    <button class="btn btn-primary mt-3">Update</button>
+  </form>
+</div>
+{% endblock %}

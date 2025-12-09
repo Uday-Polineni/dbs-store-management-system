@@ -1,0 +1,112 @@
+{% extends "layout.html" %} {% block content %}
+<div class="container mt-4">
+  <h3 class="mb-4">
+    <i class="bi bi-cart-plus"></i> Add Items to Sale #{{ sale_id }}
+  </h3>
+
+  {% if error %}
+  <div class="alert alert-danger">{{ error }}</div>
+  {% endif %}
+
+  <!-- ===================================================== -->
+  <!-- ADD ITEM FORM -->
+  <!-- ===================================================== -->
+  <form method="POST" novalidate class="mb-4 p-3 bg-white shadow-sm rounded-3">
+    <div class="mb-3">
+      <label class="form-label">Select Product</label>
+      <select name="product_id" class="form-control" required>
+        {% for p in products %}
+        <option value="{{ p.product_id }}">
+          {{ p.product_name }} (Stock: {{ p.quantity }}) - ${{ p.price }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Quantity</label>
+      <input
+        type="number"
+        name="quantity"
+        class="form-control"
+        min="1"
+        required
+      />
+    </div>
+
+    <button class="btn btn-primary">
+      <i class="bi bi-plus-circle"></i> Add Item
+    </button>
+
+    <a href="/sales/view/{{ sale_id }}" class="btn btn-secondary">
+      <i class="bi bi-check-circle"></i> Finish
+    </a>
+  </form>
+
+  <!-- ===================================================== -->
+  <!-- ADDED ITEMS TABLE -->
+  <!-- ===================================================== -->
+  <h4 class="mt-4"><i class="bi bi-bag-check"></i> Items Added So Far</h4>
+
+  {% if added_items %}
+  <table
+    class="table table-hover table-bordered bg-white shadow-sm rounded-3 mt-2"
+  >
+    <thead class="table-dark">
+      <tr>
+        <th>Product</th>
+        <th>SKU</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Line Total</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for item in added_items %}
+      <tr>
+        <td>{{ item.product_name }}</td>
+        <td>{{ item.sku }}</td>
+
+        <td class="text-center">
+          <!-- Decrease Button -->
+          <a
+            href="/sales/item/decrease/{{ sale_id }}/{{ item.product_id }}"
+            class="btn btn-sm btn-outline-secondary"
+            >−</a
+          >
+
+          <strong class="mx-2">{{ item.quantity_sold }}</strong>
+
+          <!-- Increase Button -->
+          <a
+            href="/sales/item/increase/{{ sale_id }}/{{ item.product_id }}"
+            class="btn btn-sm btn-outline-secondary"
+            >+</a
+          >
+        </td>
+
+        <td>${{ item.item_price }}</td>
+        <td>${{ item.quantity_sold * item.item_price }}</td>
+
+        <td class="text-center">
+          <!-- Remove Button -->
+          <a
+            href="/sales/item/remove/{{ sale_id }}/{{ item.product_id }}"
+            class="btn btn-sm btn-danger"
+            onclick="return confirm('Remove this item?');"
+          >
+            <i class="bi bi-trash"></i>
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% else %}
+  <p class="text-muted">No items added yet.</p>
+  {% endif %}
+</div>
+{% endblock %}
