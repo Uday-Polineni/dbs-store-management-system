@@ -1,4 +1,4 @@
-# 📘 Store Management System — Final Project (CIS 5210)
+# 📘 Store Management System
 
 A Flask + MySQL web application demonstrating CRUD operations, modular architecture, JOIN-based reporting, authentication, and secure form validation.
 
